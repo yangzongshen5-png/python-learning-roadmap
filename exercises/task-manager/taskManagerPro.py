@@ -2,13 +2,17 @@ def showMenu():
     print("===== Task Manager =====")
     print("1. Add task")
     print("2. List tasks")
-    print("3. Delete task")
-    print("4. Exit")
+    print("3. Complete tasks")
+    print("4. Delete task")
+    print("5. Exit")
 
 def addTask(tasks):
     task = input("New task: ").strip()
     if task:
-        tasks.append(task)
+        newTask = {"name":task,
+                   "completed":False
+        }
+        tasks.append(newTask)
         print("任务已添加")
     else:
         print("请输入有效任务")
@@ -18,8 +22,25 @@ def listTasks(tasks):
         print("暂无任务")
     else:
         for numbers,task in enumerate(tasks,start=1):
-            print(f"{numbers}.{task}")
+            if task["completed"]:
+                status = "Completed"
+            else:
+                status = "Not completed"
+            print(f"{numbers}.{task['name']} - {status}")
         return
+def completeTask(tasks):
+    if not tasks:
+        print("暂无任务")
+        return
+    listTasks(tasks)
+    try:
+        x = int(input("请输入已完成任务的编号： "))
+        if x<1 or x>len(tasks):
+                    return "请输入有效任务编号!"
+        tasks[x-1]["completed"]=True
+        print(f"第{x}个任务已完成")
+    except ValueError:
+            return("无效任务编号")
 def deleteTask(tasks):
     if not tasks:
         return "暂无任务可删除"
@@ -42,8 +63,10 @@ def main():
         elif choice =="2":
             listTasks(tasks)
         elif choice =="3":
-            print(deleteTask(tasks))
+                    print(completeTask(tasks))
         elif choice =="4":
+            print(deleteTask(tasks))
+        elif choice =="5":
             print("已退出")
             break
         else:
