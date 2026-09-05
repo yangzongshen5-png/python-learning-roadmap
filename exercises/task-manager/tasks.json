@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Daily practice",
+        "completed": true
+    },
+    {
+        "name": "English learning",
+        "completed": false
+    },
+    {
+        "name": "school homework",
+        "completed": false
+    }
+]
