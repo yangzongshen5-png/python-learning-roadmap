@@ -1,3 +1,13 @@
+import json
+def loadTask():
+     try:
+          with open ("tasks.json","r") as file:
+               return json.load(file)
+     except FileNotFoundError:
+          return []
+def saveTasks(tasks):
+     with open("tasks.json","w") as file:
+          json.dump(tasks,file,indent=4)
 def showMenu():
     print("===== Task Manager =====")
     print("1. Add task")
@@ -13,6 +23,7 @@ def addTask(tasks):
                    "completed":False
         }
         tasks.append(newTask)
+        saveTasks(tasks)
         print("任务已添加")
     else:
         print("请输入有效任务")
@@ -38,6 +49,7 @@ def completeTask(tasks):
         if x<1 or x>len(tasks):
                     return "请输入有效任务编号!"
         tasks[x-1]["completed"]=True
+        saveTasks(tasks)
         print(f"第{x}个任务已完成")
     except ValueError:
             return("无效任务编号")
@@ -50,11 +62,12 @@ def deleteTask(tasks):
         if x<1 or x>len(tasks):
             return "请输入有效任务编号!"
         tasks.pop(x-1)
+        saveTasks(tasks)
         return f"已删除第{x}个任务"
     except ValueError:
         return("无效任务编号")
 def main():
-    tasks = []
+    tasks = loadTask()
     showMenu()
     while True:
         choice = (input("请输入菜单选项： "))
